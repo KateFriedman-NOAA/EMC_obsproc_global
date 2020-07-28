@@ -15,7 +15,7 @@ echo "  Mar 11 2017 - Update to handle nemsio filename patterns             "
 echo "  Mar 15 2019 - Added dbuoyb & mbuoyb to nsstfile content             "
 echo "  Jun 10 2019 - Added *buoyb qc (MAKE_NSST_BUOYB & bufr_latlonqc.sh)  "
 echo "  Jul 27 2020 - Added feature to use tstsp when generating nsstbufr   "
-echo "  files.
+echo "  files.                                                              "
 echo "----------------------------------------------------------------------"
 echo 
 #############################################################################
