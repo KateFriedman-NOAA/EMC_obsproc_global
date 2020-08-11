@@ -1,10 +1,10 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-obsproc_global release 3.2.6 --> released Apr 09, 2020,
-                             --> implemented Apr 22, 2020
+obsproc_global release 3.3.0 --> released Aug ??, 2020,
+                             --> implemented ??? ??, 2020
 
 files:
    obsproc_global/fix/prepobs_oiqc.oberrs
-   obsproc_global/jobs/JGLOBAL_DUMP
+ M obsproc_global/jobs/JGLOBAL_DUMP
    obsproc_global/jobs/JGLOBAL_DUMP_POST
    obsproc_global/jobs/JGLOBAL_PREP
    obsproc_global/jobs/JGLOBAL_PREP_POST
@@ -21,16 +21,54 @@ files:
    obsproc_global/parm/syndat_syndata.gdas.parm
    obsproc_global/parm/syndat_syndata.gfs.parm
  M obsproc_global/scripts/exglobal_dump.sh.ecf
-   obsproc_global/scripts/exglobal_makeprepbufr.sh.ecf
+ M obsproc_global/scripts/exglobal_makeprepbufr.sh.ecf
    obsproc_global/sorc/bufr_latlonqc.fd/latlonqc.f
    obsproc_global/sorc/bufr_latlonqc.fd/makefile
    obsproc_global/sorc/build.sh
-   obsproc_global/sorc/load_libs.rc
+ M obsproc_global/sorc/load_libs.rc
    obsproc_global/sorc/clean.sh
    obsproc_global/sorc/clobber.sh
    obsproc_global/sorc/install.sh
    obsproc_global/sorc/setlibs.rc
    obsproc_global/ush/bufr_latlonqc.sh
+
+( A - added,  M - modified, D - deleted)
+
+
+ JOB script changes:
+   JGLOBAL_DUMP:
+   - Corrected default value for DCOMROOT.
+
+
+ Model Script file changes:
+   exglobal_dump.sh.ecf:
+    - 1) Added 3 subsets to adpsfc dump group
+         BENEFIT: coordinates adpsfc in dump group #2 with the
+                  updated bufr_dumplist.
+    - 2) Added 2 subsets to sfcshp dump group
+         BENEFIT: coordinates sfcshp in dump group #2 with the
+                  updated bufr_dumplist.
+    - 3) Removed dbuoyb and mbuoyb from dump group #2.
+         BENEFIT: The individual dump files for duoyb and mbuoyb
+                  are no longer required now that they are included
+                  in the sfcshp dump group.
+   exglobal_makeprepbufr.sh.ecf:
+    - 1) Set default value for MAKE_NSST_BUOYB to "NO".
+         BENEFIT: no longer need to append mbuoyb and dbuoyb dump
+                  files to nsstbufr file since those data are 
+                  included in the sfcshp dump file.
+    - 2) Added feature to use tstsp in place of COMSP when generating
+         nsstbufr files in development.
+         BENEFIT: allows for more flexible development when testing
+                  nsstbufr file generation.
+
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+obsproc_global release 3.2.6 --> released Apr 09, 2020,
+                             --> implemented Apr 22, 2020
+
+files:
+ M obsproc_global/scripts/exglobal_dump.sh.ecf
 
 ( A - added,  M - modified, D - deleted)
 
