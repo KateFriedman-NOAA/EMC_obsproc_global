@@ -72,7 +72,7 @@ files:
  Output changes:
  ---------------
    Job JGLOBAL_DUMP:
-    - As a result of update to use obsprocs_shared/bufr_dumplist.v2.3.0:
+    - As a result of update to use obsproc_shared/bufr_dumplist.v2.3.0:
        - Dump files $COMROOT/gfs/prod/g*s.$PDY/$cyc/g*s.t${cyc}z.adpsfc.tm00.bufr_d
          now contain restriced, fixed, and mobile synoptic reports in BUFR format
          from b000/xx100, b000/xx101, and b000/xx102 tanks respectively. 
@@ -80,7 +80,7 @@ files:
          now contain drifting and moored buoy reports in BUFR format from b001/xx102
          and b001/xx103 tanks respectively.
    Job JGLOBAL_PREP:
-    - As a result of update to use obsprocs_shared/bufr_dumplist.v2.3.0:
+    - As a result of update to use obsproc_shared/bufr_dumplist.v2.3.0:
        - BUFR formatted synoptic (report types 181/281, 183, 192/292, 284) and buoy
          (report types 180/280, 282, 183, 284, 194/294) reports are encoded into
          PREPBUFR files and are available for assimilation.
