@@ -63,6 +63,112 @@ files:
                   nsstbufr file generation.
 
 
+ Source code changes:
+   load_libs.rc:
+    - update to use bufrlib version 11.3.0
+    - remove settings for IBM phase 1/2. 
+
+
+ Output changes:
+ ---------------
+   Job JGLOBAL_DUMP:
+    - As a result of update to use obsprocs_shared/bufr_dumplist.v2.3.0:
+       - Dump files $COMROOT/gfs/prod/g*s.$PDY/$cyc/g*s.t${cyc}z.adpsfc.tm00.bufr_d
+         now contain restriced, fixed, and mobile synoptic reports in BUFR format
+         from b000/xx100, b000/xx101, and b000/xx102 tanks respectively. 
+       - Dump files $COMROOT/gfs/prod/g*s.$PDY/$cyc/g*s.t${cyc}z.sfcshp.tm00.bufr_d
+         now contain drifting and moored buoy reports in BUFR format from b001/xx102
+         and b001/xx103 tanks respectively.
+   Job JGLOBAL_PREP:
+    - As a result of update to use obsprocs_shared/bufr_dumplist.v2.3.0:
+       - BUFR formatted synoptic (report types 181/281, 183, 192/292, 284) and buoy
+         (report types 180/280, 282, 183, 284, 194/294) reports are encoded into
+         PREPBUFR files and are available for assimilation.
+
+
+ Compute Resource Information:
+ -----------------------------
+   All jobs:
+    - No change in requested resources in the job cards.
+?   - Negligible change in memory usage.
+?   - Negligible change in wallclock run time.
+
+
+
+ Disk Space Changes:
+ -------------------
+    For gdas network:
+?   - adpsfc bufr_d files will be ~? Mb per day
+?   - sfcshp bufr_d files will exceed ~? Mb per day 
+    For gfs netowrk:
+?   - adpsfc bufr_d files will be ~? Mb per day
+?   - sfcshp bufr_d files will exceed ~? Mb per day 
+ 
+
+ Shared Software (with 1 or more jobs):
+ --------------------------------------
+    - obsproc_dump.v5.1.0
+    - obsproc_prep.v5.3.0
+    - obsproc_dump_post.v3.4.0
+    - obsproc_prep_post.v3.1.1
+    - obsproc_shared/bufr_avgdata.v2.1.0
+    - obsproc_shared/bufr_remorest.v2.1.1
+    - obsproc_shared/bufr_dumplist.v2.3.0
+
+
+ Required modules:
+  All jobs require:
+?   EnvVars           (tested with 1.0.2, the default at the time)
+?   prod_util         (tested with 1.1.3, the default at the time)
+?   prod_envir        (tested with 1.1.0, the default at the time)
+?   ips               (tested with 18.0.1.163, the default at the time)
+?   impi              (tested with 18.0.1, the default at the time)
+?   CFP               (tested with 2.0.2, the default at the time)
+?   lsf               (tested with 10.1, the default at the time)
+  JGLOBAL_DUMP requires:
+?   grib_util/1.0.6
+    bufr_dumplist/2.3.0
+    dumpjb/5.1.0
+  JGLOBAL_DUMP_POST, JGLOBAL_PREP, and JGLOBAL_PREP_POST require:
+?   w3emc/2.3.0
+?   w3nco/2.0.6
+
+
+ Preimplementation Testing Requirements:
+ ---------------------------------------
+   - Test all 4 JGLOBAL_* jobs for gdas and gfs cycles.
+
+
+ Downstream users:
+ ----------------
+   - The main users of this output are the GDAS and GFS networks.
+   - Dump count information produced by the dump_post jobs are used by
+     the models_realtime package.
+
+
+ Dissemination:
+ --------------
+   - No change in dissemination.
+
+
+ Special Instructions:
+ ---------------------
+   This is part of OBSPROC.v14.0.0.
+   This must be implemented on Dell-p3.
+
+   This must be implemented simultaneously with the implementations of: 
+      v5.1.0 of obsproc_dump,
+      v3.4.0 of obsproc_dump_post,
+      v5.3.0 of obsproc_prep,
+      v3.1.1 of obsproc_prep_post,
+      v2.2.0 of obsproc_shared_bufr_dumplist,
+      v2.1.1 of obsproc_shared_bufr_remorest.
+
+   Please retrieve the obsproc_global.ver file:
+   git clone ssh://$USER@vlab.ncep.noaa.gov:29418/EMC_obsproc
+   cd EMC_obsproc; git checkout master
+?  cp versions/20??08??_OBSPROC_v14.0.0/obsproc_global.ver $NWROOT/versions
+
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 obsproc_global release 3.2.6 --> released Apr 09, 2020,
                              --> implemented Apr 22, 2020
