@@ -1,5 +1,5 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-obsproc_global release 3.3.0 --> released Aug ??, 2020,
+obsproc_global release 3.3.0 --> released Aug 28, 2020,
                              --> implemented ??? ??, 2020
 
 files:
@@ -90,19 +90,25 @@ files:
  -----------------------------
    All jobs:
     - No change in requested resources in the job cards.
-?   - Negligible change in memory usage.
-?   - Negligible change in wallclock run time.
+    - Negligible change in memory usage.
+    - Wallclock run time increases:
+       - gdas dump: ~10s increase per cycle
+       - gfs dump : ~28s increase per cycle
+       - gdas prep: ~ 8s increase per cycle
+       - gfs prep : ~16s increase per cycle
 
 
 
  Disk Space Changes:
  -------------------
     For gdas network:
-?   - adpsfc bufr_d files will be ~? Mb per day
-?   - sfcshp bufr_d files will exceed ~? Mb per day 
+    - adpsfc bufr_d files will increase by ~6.4 Mb per day
+    - sfcshp bufr_d files will increase by ~9.4 Mb per day 
+    - prepbufr files will increase by ~5.8 Mb per day 
     For gfs netowrk:
-?   - adpsfc bufr_d files will be ~? Mb per day
-?   - sfcshp bufr_d files will exceed ~? Mb per day 
+    - adpsfc bufr_d files will increase by ~6.1 Mb per day
+    - sfcshp bufr_d files will increase by ~9.5 Mb per day 
+    - prepbufr files will increase by ~5.8 Mb per day 
  
 
  Shared Software (with 1 or more jobs):
