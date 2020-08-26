@@ -167,7 +167,7 @@ files:
       v3.4.0 of obsproc_dump_post,
       v5.3.0 of obsproc_prep,
       v3.1.1 of obsproc_prep_post,
-      v2.2.0 of obsproc_shared_bufr_dumplist - previously release to support RTOFS,
+      v2.2.0 of obsproc_shared_bufr_dumplist - previously released to support RTOFS,
       v2.1.1 of obsproc_shared_bufr_remorest.
 
    Please retrieve the obsproc_global.ver file:
