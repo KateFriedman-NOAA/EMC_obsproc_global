@@ -51,9 +51,9 @@ echo "                       with crsfdb and escrsf.  On Apr 22, 2020, NSR  "
 echo "                       CrIS data from NPP is being replaced by FSR.   "
 echo "                       The cris dump group is obsolete with the change"
 echo "                       to FSR.                                        "
-echo "         Jun 23 2020 - Added 3 subsets to adpsfc dump group.          "
+echo "         Aug 20 2020 - Incremented subsets for the adpsfc and sfcshp  "
+echo "                       dump groups to match bufr_dumplist.            "
 echo "                       Removed mbuoyb and dbuoyb from dump group #2.  "
-echo "                       Added 2 subsets to sfcshp dump group.          "
 #############################################################################
 
 # NOTE: NET is changed to gdas in the parent Job script for the gdas RUN 

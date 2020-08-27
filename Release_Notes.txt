@@ -42,13 +42,11 @@ files:
 
  Model Script file changes:
    exglobal_dump.sh.ecf:
-    - 1) Added 3 subsets to adpsfc dump group
-         BENEFIT: coordinates adpsfc in dump group #2 with the
-                  updated bufr_dumplist.
-    - 2) Added 2 subsets to sfcshp dump group
-         BENEFIT: coordinates sfcshp in dump group #2 with the
-                  updated bufr_dumplist.
-    - 3) Removed dbuoyb and mbuoyb from dump group #2.
+    - 1) Incremented the subsets for the adpsfc and sfcshp dump 
+         groups.
+         BENEFIT: coordinates adpsfc and sfcshp in dump group #2
+                  with the updated bufr_dumplist.
+    - 2) Removed dbuoyb and mbuoyb from dump group #2.
          BENEFIT: The individual dump files for duoyb and mbuoyb
                   are no longer required now that they are included
                   in the sfcshp dump group.
