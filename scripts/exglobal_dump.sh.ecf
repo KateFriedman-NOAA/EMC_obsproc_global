@@ -54,6 +54,8 @@ echo "                       to FSR.                                        "
 echo "         Aug 20 2020 - Incremented subsets for the adpsfc and sfcshp  "
 echo "                       dump groups to match bufr_dumplist.            "
 echo "                       Removed mbuoyb and dbuoyb from dump group #2.  "
+echo "                       Removed obsolete dump group escrsf from dump   "
+echo "                       group #7.
 #############################################################################
 
 # NOTE: NET is changed to gdas in the parent Job script for the gdas RUN 
@@ -103,7 +105,7 @@ set +u
 #
 # Dump group #7 (non-pb, TIME_TRIM defaults to OFF) =
 #               avcspm esmhs goesfv 1bmhs airsev atmsdb gome omi trkob gpsro
-#               escrsf crisf4
+#               crisf4
 #
 # Dump group #8 (pb, TIME_TRIM defaults to ON) =
 #               satwnd
@@ -1160,7 +1162,6 @@ export DUMP_NUMBER=7
 #            OMI:    1 subtype(s)
 #            TRKOB:  1 subtype(s)
 #            GPSRO:  1 subtype(s)
-#            ESCRSF: 1 subtype(s) (if present in past 10 days of tanks)
 #            CRISF4: 1 subtype(s) (if present in past 10 days of tanks)
 #            --------------------
 #            TOTAL NUMBER OF SUBTYPES = 12
@@ -1178,17 +1179,6 @@ DTIM_latest_omi=${DTIM_latest_omi:-"+2.99"}
 DTIM_latest_trkob=${DTIM_latest_trkob:-"+2.99"}
 DTIM_latest_gpsro=${DTIM_latest_gpsro:-"+2.99"}
 #-----------------------------------------------
-# check for escrsf tank presence in past 10 days
-escrsf=""
-err_check_tanks=0
-sh $USHobsproc_dump/check_tanks.sh escrsf
-err_check_tanks=$?
-if [ $err_check_tanks -eq 0 ];then
-   escrsf=escrsf
-   DTIM_latest_escrsf=${DTIM_latest_escrsf:-"+2.99"}
-fi
-#-----------------------------------------------
-#-----------------------------------------------
 # check for crisf4 tank presence in past 10 days
 crisf4=""
 err_check_tanks=0
@@ -1203,7 +1193,7 @@ fi
 TIME_TRIM=${TIME_TRIM:-${TIME_TRIM7:-off}}
 
 $ushscript_dump/bufr_dump_obs.sh $dumptime 3.0 1 avcspm esmhs goesfv 1bmhs \
- airsev atmsdb gome omi trkob gpsro $escrsf $crisf4
+ airsev atmsdb gome omi trkob gpsro $crisf4
 error7=$?
 echo "$error7" > $DATA/error7
 
@@ -1228,10 +1218,6 @@ if [ "$SENDDBN" = "YES" ]; then
     ${COMSP}trkob.tm00.bufr_d
    $DBNROOT/bin/dbn_alert MODEL ${NET_uc}_BUFR_gpsro $job \
     ${COMSP}gpsro.tm00.bufr_d
-   if [ "$escrsf" = escrsf ];then
-      $DBNROOT/bin/dbn_alert MODEL ${NET_uc}_BUFR_escrsf $job \
-       ${COMSP}escrsf.tm00.bufr_d
-   fi
    if [ "$crisf4" = crisf4 ];then
       $DBNROOT/bin/dbn_alert MODEL ${NET_uc}_BUFR_crisf4 $job \
        ${COMSP}crisf4.tm00.bufr_d

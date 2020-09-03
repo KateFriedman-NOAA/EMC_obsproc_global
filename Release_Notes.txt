@@ -50,6 +50,7 @@ files:
          BENEFIT: The individual dump files for duoyb and mbuoyb
                   are no longer required now that they are included
                   in the sfcshp dump group.
+    - 3) Removed obsolete dump group escrsf from dump group #7.
    exglobal_makeprepbufr.sh.ecf:
     - 1) Set default value for MAKE_NSST_BUOYB to "NO".
          BENEFIT: no longer need to append mbuoyb and dbuoyb dump
