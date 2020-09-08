@@ -56,6 +56,12 @@ echo "                       dump groups to match bufr_dumplist.            "
 echo "                       Removed mbuoyb and dbuoyb from dump group #2.  "
 echo "                       Removed obsolete dump groups escrsf and goesfv "
 echo "                       from dump group #7.                            "
+echo "                     - In Dump group #8, disabled processing of legacy"
+echo "                       EUMETSAT AMV subsets 005064, 005065, and       "
+echo "                       005066. Added DTIM settings for new WMO BUFR   "
+echo "                       format EUMETSAT AMV subsets 005067, 005068, and"
+echo "                       005069. On Oct 6, 2020, EUMETSAT AMV format    "
+echo "                       changes to use new WMO BUFR sequence, 3-10-077."
 #############################################################################
 
 # NOTE: NET is changed to gdas in the parent Job script for the gdas RUN 

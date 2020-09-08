@@ -50,7 +50,12 @@ files:
          BENEFIT: The individual dump files for duoyb and mbuoyb
                   are no longer required now that they are included
                   in the sfcshp dump group.
-    - 3) Removed obsolete dump group escrsf from dump group #7.
+    - 3) Updated dump group #8 to disable the processing of legacy
+         EUMETSAT AMV subsets 005064, 005065, and 005066.  Added
+         DTIM settings for the new BUFR format EUMETSAT AMV subsets
+         005067, 005068, and 005069 in the satwnd dump group.  On
+         Oct 6, 2020, EUMETSAT AMV format changed to use new WMO
+         BUFR sequence 3-10-077.
    exglobal_makeprepbufr.sh.ecf:
     - 1) Set default value for MAKE_NSST_BUOYB to "NO".
          BENEFIT: no longer need to append mbuoyb and dbuoyb dump
@@ -162,6 +167,10 @@ files:
    This must be implemented on Dell-p3.
 
    This must be implemented simultaneously with the implementations of: 
+      v2.5.2 of obsproc_cdas,
+      v3.3.1 of obsproc_rtma,
+      v3.2.1 of obsproc_urma,
+      v2.4.0 of obsproc_dump_monitor,
       v5.1.0 of obsproc_dump,
       v3.4.0 of obsproc_dump_post,
       v5.3.0 of obsproc_prep,
