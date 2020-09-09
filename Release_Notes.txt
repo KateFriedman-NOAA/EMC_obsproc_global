@@ -167,6 +167,7 @@ files:
    This must be implemented on Dell-p3.
 
    This must be implemented simultaneously with the implementations of: 
+      v4.2.0 of decod_dcelrw,
       v2.5.2 of obsproc_cdas,
       v3.3.1 of obsproc_rtma,
       v3.2.1 of obsproc_urma,
