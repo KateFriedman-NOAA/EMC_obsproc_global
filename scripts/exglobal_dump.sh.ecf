@@ -1276,10 +1276,10 @@ export DUMP_NUMBER=8
 
 ADD_satwnd="005024 005025 005026 005030 005031 005032 005034 005039"
 
-# Skip old bufr METEOSAT AMVs
-export SKIP_005064=YES
-export SKIP_005065=YES
-export SKIP_005066=YES
+# Skip old bufr METEOSAT AMVs; for testing skip in trigger or version file
+#export SKIP_005064=YES
+#export SKIP_005065=YES
+#export SKIP_005066=YES
 
 # satwnd types
 # ------------
