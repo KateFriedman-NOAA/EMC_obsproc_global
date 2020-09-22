@@ -62,6 +62,8 @@ echo "                       005066. Added DTIM settings for new WMO BUFR   "
 echo "                       format EUMETSAT AMV subsets 005067, 005068, and"
 echo "                       005069. On Oct 6, 2020, EUMETSAT AMV format    "
 echo "                       changes to use new WMO BUFR sequence, 3-10-077."
+echo "         Sep 21 2020 - Incremented subsets for the sfcshp dump groups "
+echo "                       to match bufr_dumplist.                        "
 #############################################################################
 
 # NOTE: NET is changed to gdas in the parent Job script for the gdas RUN 
@@ -689,7 +691,7 @@ export DUMP_NUMBER=2
 #
 #--------------------------------------------------------------------------
 # GDAS:
-# Dump # 2 : SFCSHP: 9 subtype(s)
+# Dump # 2 : SFCSHP: 11 subtype(s) (added shipsb & shipub in dumplist)
 #            ATOVS:  1 subtype(s)
 #            ADPSFC: 7 subtype(s)
 #            ASCATT: 1 subtype(s)
@@ -697,18 +699,18 @@ export DUMP_NUMBER=2
 # ===> Dumping of WNDSAT removed from here until new ingest feed is established
 #      (had been dumped with a time window radius of -3.00 to +2.99 hours)
 #            --------------------
-#            TOTAL NUMBER OF SUBTYPES = 18 - 19
+#            TOTAL NUMBER OF SUBTYPES = 20 - 21
 #
 #--------------------------------------------------------------------------
 # GFS:
-# Dump # 2 : SFCSHP: 9 subtype(s)
+# Dump # 2 : SFCSHP: 11 subtype(s) (added shipsb & shipub in dumplist)
 #            ADPSFC: 7 subtype(s)
 #            ASCATT: 1 subtype(s)
 #  xxxxxxxxx WNDSAT: 1 subtype(s) (if present in past 10 days of tanks)
 # ===> Dumping of WNDSAT removed from here until new ingest feed is established
 #      (had been dumped with a time window radius of -3.00 to +2.99 hours)
 #            --------------------
-#            TOTAL NUMBER OF SUBTYPES =  17 - 18
+#            TOTAL NUMBER OF SUBTYPES =  19 - 20
 #
 #==========================================================================
 
