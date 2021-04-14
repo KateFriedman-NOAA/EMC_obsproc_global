@@ -66,6 +66,11 @@ echo "         Oct 09 2020 - Update to dump gsrcsr, gsrasr, ompslp, ahicsr, "
 echo "                       sstvcw, sstvpw, leogeo, hdob                   "
 echo "                       Update to remove obsolete GOES-15 data.        "
 echo "                       Update to remove legacy VIIRS AMV data.        "
+echo "         Feb 22 2021 - Disabled DBN alerts for gpsro dump files.      "
+echo "                       These gpsro dump files have the potential to   "
+echo "                       contain commercial data.  The equivalent       "
+echo "                       non-restricted gpsro dump files are alerted    "
+echo "                       instead.                                       "
 #############################################################################
 
 # NOTE: NET is changed to gdas in the parent Job script for the gdas RUN 
@@ -1238,8 +1243,10 @@ if [ "$SENDDBN" = "YES" ]; then
     ${COMSP}omi.tm00.bufr_d
    $DBNROOT/bin/dbn_alert MODEL ${NET_uc}_BUFR_trkob $job \
     ${COMSP}trkob.tm00.bufr_d
-   $DBNROOT/bin/dbn_alert MODEL ${NET_uc}_BUFR_gpsro $job \
-    ${COMSP}gpsro.tm00.bufr_d
+# gpsro dump file has nr version which is alerted from
+# exdump_post.sh.ecf
+#  $DBNROOT/bin/dbn_alert MODEL ${NET_uc}_BUFR_gpsro $job \
+#   ${COMSP}gpsro.tm00.bufr_d
    if [ "$crisf4" = crisf4 ];then
       $DBNROOT/bin/dbn_alert MODEL ${NET_uc}_BUFR_crisf4 $job \
        ${COMSP}crisf4.tm00.bufr_d
