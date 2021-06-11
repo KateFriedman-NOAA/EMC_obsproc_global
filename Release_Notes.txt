@@ -1,10 +1,10 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-obsproc_global release 3.3.0 --> released Aug 28, 2020,
-                             --> implemented ??? ??, 2020
+obsproc_global release 3.4.1 --> released Feb 10, 2021,
+                             --> implemented Apr 14, 2021
 
 files:
    obsproc_global/fix/prepobs_oiqc.oberrs
- M obsproc_global/jobs/JGLOBAL_DUMP
+   obsproc_global/jobs/JGLOBAL_DUMP
    obsproc_global/jobs/JGLOBAL_DUMP_POST
    obsproc_global/jobs/JGLOBAL_PREP
    obsproc_global/jobs/JGLOBAL_PREP_POST
@@ -21,16 +21,329 @@ files:
    obsproc_global/parm/syndat_syndata.gdas.parm
    obsproc_global/parm/syndat_syndata.gfs.parm
  M obsproc_global/scripts/exglobal_dump.sh.ecf
+   obsproc_global/scripts/exglobal_makeprepbufr.sh.ecf
+
+( A - added,  M - modified, D - deleted)
+
+ Model Script file changes:
+   exglobal_dump.sh.ecf:
+    - Disabled DBN alerts for gpsro dump files.  These gpsro
+      dump files potentially contain commercial (restricted)
+      data.  The non-restricted gpsro dump files are alerted
+      instead.
+
+ Output changes:
+ ---------------
+   Job JGLOBAL_DUMP:
+    - The gpsro dump file will be slightly larger with the
+      addition of commercial GPS-RO data:
+       g*s.tCCz.gpsro.tm00.bufr_d
+    - The gpsro dump file will add ~59 Mb to $COMROOT per day.
+    - The gpsro dump file will no longer be available on NOMADS.
+   Job JGLOBAL_DUMP_POST:
+    - A new non-restricted gpsro dump file will be generated:
+       g*s.tCCz.gpsro.tm00.bufr_d.nr
+    - The non-restricted gpsro dump file will add ~180 Mb to
+      $COMROOT per day.
+    - The non-restricted gpsro dump file will be available on
+      NOMADS.
+
+ Compute Resource Information:
+ -----------------------------
+   All jobs:
+    - No change in requested resources in the job cards.
+    - Negligible change in memory usage.
+    - Negligible change in wall clock time.
+
+ Disk Space Changes:
+ -------------------
+    For gdas network:
+    - gpsro bufr_d files will increase by ~29 Mb per day
+    - new gpsro nr bufr_d files will total ~94 Mb per day
+    For gfs netowrk:
+    - gpsro bufr_d files will increase by less then 29 Mb per day
+    - new gpsro nr bufr_d files will total less than 94 Mb per day
+
+ Shared Software (with 1 or more jobs):
+ --------------------------------------
+    - obsproc_dump.v5.1.1
+    - obsproc_prep.v5.3.0
+    - obsproc_dump_post.v3.5.0
+    - obsproc_prep_post.v3.1.1
+    - obsproc_shared/bufr_avgdata.v2.1.0
+    - obsproc_shared/bufr_remorest.v2.1.2
+    - obsproc_shared/bufr_dumplist.v2.3.1
+
+ Required modules:
+  All jobs require:
+    EnvVars           (tested with 1.0.3, the default at the time)
+    prod_util         (tested with 1.1.4, the default at the time)
+    prod_envir        (tested with 1.1.0, the default at the time)
+    ips               (tested with 18.0.1.163, the default at the time)
+    impi              (tested with 18.0.1, the default at the time)
+    CFP               (tested with 2.0.2, the default at the time)
+    lsf               (tested with 10.1, the default at the time)
+  JGLOBAL_DUMP requires:
+    grib_util/1.1.1
+    bufr_dumplist/2.3.1
+    dumpjb/5.1.1
+  JGLOBAL_DUMP_POST, JGLOBAL_PREP, and JGLOBAL_PREP_POST require:
+    w3emc/2.3.0
+    w3nco/2.0.6
+
+ Preimplementation Testing Requirements:
+ ---------------------------------------
+   - Test JGLOBAL_DUMP and JGLOBAL_DUMP_POST jobs for gdas and gfs cycles.
+
+ Downstream users:
+ ----------------
+   - The main users of this output are the GDAS and GFS networks.
+   - Dump count information produced by the dump_post jobs are used by
+     the models_realtime package.
+
+ Dissemination:
+ --------------
+   - gpsro dump files will no longer be pushed to NOMADS.
+      g*s.tCCz.gpsro.tm00.bufr_d
+   - gpsro non-restricted dump files will be pushed to NOMADS instead.
+      g*s.tCCz.gpsor.tm00.bufr_d.nr
+
+ Special Instructions:
+ ---------------------
+   This is part of OBSPROC.v15.1.0.
+   This must be implemented simultaneously with the implementations of:
+      v4.0.0 of decod_dcrocc,
+      v3.4.2 of obsproc_nam,
+      v5.1.1 of obsproc_dump,
+      v3.5.0 of obsproc_dump_post,
+      v2.1.2 of obsproc_shared_bufr_remorest,
+      v2.3.1 of obsproc_shared_bufr_dumplist.
+   This must be implemented on Dell-p3.
+   Please retrieve the obsproc_global.ver file:
+   git clone ssh://$USER@vlab.ncep.noaa.gov:29418/EMC_obsproc
+   cd EMC_obsproc; git checkout master
+   cp versions/20210201_OBSPROC_v15.1.0/obsproc_global.ver $NWROOT/versions
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+obsproc_global release 3.4.0 --> released Oct 09, 2020,
+                             --> implemented ??? ??, 2021
+
+files:
+   obsproc_global/fix/prepobs_oiqc.oberrs
+ M obsproc_global/jobs/JGLOBAL_DUMP
+ M obsproc_global/jobs/JGLOBAL_DUMP_POST
+ M obsproc_global/jobs/JGLOBAL_PREP
+ M obsproc_global/jobs/JGLOBAL_PREP_POST
+ M obsproc_global/scripts/exglobal_dump.sh.ecf
  M obsproc_global/scripts/exglobal_makeprepbufr.sh.ecf
-   obsproc_global/sorc/bufr_latlonqc.fd/latlonqc.f
-   obsproc_global/sorc/bufr_latlonqc.fd/makefile
-   obsproc_global/sorc/build.sh
+ D obsproc_global/sorc/bufr_latlonqc.fd/latlonqc.f
+ D obsproc_global/sorc/bufr_latlonqc.fd/makefile
+ D obsproc_global/sorc/build.sh
+ D obsproc_global/sorc/load_libs.rc
+ D obsproc_global/sorc/clean.sh
+ D obsproc_global/sorc/clobber.sh
+ D obsproc_global/sorc/install.sh
+ D obsproc_global/sorc/setlibs.rc
+ D obsproc_global/ush/bufr_latlonqc.sh
+
+( A - added,  M - modified, D - deleted)
+
+ JOB script changes:
+   JGLOBAL_DUMP, JGLOBAL_DUMP_POST:
+   - Modified to use the new $COMPONENT subdirectory structure.
+     BENEFIT: Needed to work correctly with the GFS v16 upgrade.
+   JGLOBAL_PREP:
+   - Modified to use the new $COMPONENT subdirectory structure.
+   - Modified to integrate the NETCDF_IN switch for encoding the
+      first guess information into the prepbufr file.
+     BENEFIT: Needed to work correctly with the GFS v16 upgrade.
+   - Modified default setting for NSPLIT from 3 to 4.
+     BENEFIT: Needed to help reduce wall clock processing time.
+   JGLOBAL_PREP_POST:
+   - Modified to use the new $COMPONENT subdirectory structure.
+   - Modified to source GFS version file, $NWROOT/versions/gfs.ver.
+     BENEFIT: Needed to work correctly with the GFS v16 upgrade.
+
+ Model Script file changes:
+   exglobal_dump.sh.ecf:
+    - Removed setting for legacy VIIRS AMV data.
+    - Updated dump group #1 to add:
+      - processing for GOES-16/17 Clear Sky Radiance data (gsrcsr).
+      - processing for Himawari-8 Clear Sky Radiance data (ahicsr).
+      - processing for VIIRS SST radiance clear and over water
+        data (sstvcw).
+    - Updated dump group #4 to add processing for High Density
+      observations from reconnaissance aircraft (hdob).
+    - Updated dump group #8 to:
+      - include LEO-GEO, subset 005072, in the satwnd dump processing.
+      - remove GOES-15 subsets: 005010, 005011, 005012, and 005019
+        from the satwnd dump processing.
+    - Updated dump group #10 to add:
+      - processing for GOES-16/17 All Sky Radiance data (gsrasr).
+      - processing for NPP OMPS Limb Profiler data (ompslp).
+      - processing for VIIRS SST radiance probably clear and over
+        water data (sstvpw).
+   exglobal_makeprepbufr.sh:
+    - Removed processing that cats mbuoyb and dbuoyb to the nsstbufr
+      file.  This functionality was rendered obsolete with the
+      implementation of obsproc_global.v3.3.0.
+    - Code added to copy global guess files in NetCDF format to
+      $COMOUT when $NETCDF_IN=.true..
+    - Code added to run dbn_alert for NetCDF format global guess
+      files when $NETCDF_IN=.true..
+
+ Source code changes:
+   sorc/: bufr_latlonqc.fd, build,sh, load_libs.rc, clean.sh, clobber.sh,
+   install.sh, setlibs.rc:
+   - Removed; functionality rendered obsolete with implementation of
+     obsproc_global.v3.3.0.
+
+
+ USH script file changes:
+   ush/: bufr_latlonqc.sh:
+   - Removed; functionality rendered obsolete with implementation of
+     obsproc_global.v3.3.0.
+
+ Output changes:
+ ---------------
+   Job JGLOBAL_DUMP:
+    The following new bufr dump files will populate $COMROOT, and
+    will be alerted:
+     g*s.t00z.ahicsr.tm00.bufr_d
+     g*s.t00z.gsrasr.tm00.bufr_d
+     g*s.t00z.gsrcsr.tm00.bufr_d
+     g*s.t00z.hdob.tm00.bufr_d
+     g*s.t00z.ompslp.tm00.bufr_d
+     g*s.t00z.sstvcw.tm00.bufr_d
+     g*s.t00z.sstvpw.tm00.bufr_d
+    The following dump file will contain a new subset, NC005072:
+     g*s.t00z.satwnd.tm00.bufr_d
+    The following dump file will no longer contain GOES-15
+    subsets (NC005010, NC005011, NC005012, NC005019):
+     g*s.t00z.satwnd.tm00.bufr_d
+
+ Compute Resource Information:
+ -----------------------------
+   Job cards:
+    JGLOBAL_DUMP, JGLOBAL_DUMP_POST, JGLOBAL_PREP_POST:
+     - no change
+    JGLOBAL_PREP:
+     #BSUB -R "span[ptile=2]"
+     #BSUB -n 4
+     #BSUB -R affinity[core(1)]
+     ##BSUB -M 18000
+   Memory:
+    gfs_dump increases memory usage ~3116 Mb per cycle
+    gdas_dump increases memory usage ~3359 Mb per cycle
+    gfs_dump_post: no change
+    gdas_dump_post: no change
+    gfs_prep increases memory usage ~12816 Mb per cycle
+    gdas_prep increases memory usage ~11765 Mb per cycle
+    gfs_prep_post: no change
+    gdas_prep_post: no change
+   Wall clock run time:
+    gfs_dump increases ~18 s per cycle
+    gdas_dump increases ~18 s per cycle
+    gfs_dump_post: no change
+    gdas_dump_post: increases ~8 s per cycle
+    gfs_prep increases ~159 s per cycle
+    gdas_prep increases ~156 s per cycle
+    gfs_prep_post: no change
+    gdas_prep_post: no change
+
+ Disk Space Changes:
+ -------------------
+    For gdas network:
+    - satwnd bufr_d files will increase by ~10.3 Mb per day
+    - new ahicsr bufr_d files will add ~ 53 Mb per day
+    - new gsrasr bufr_d files will add ~ 978 Mb per day
+    - new gsrcsr bufr_d files will add ~ 705 Mb per day
+    - new hdob bufr_d files will add ~ 0.67 Mb per day
+    - new ompslp bufr_d files will add ~ 2.6 Mb per day
+    - new sstvcw bufr_d files will add ~ 7155 Mb per day
+    - new sstvpw bufr_d files will add ~ 1235 Mb per day
+    For gfs network:
+    - satwnd bufr_d files will increase by ~4.0 Mb per day
+    - new ahicsr bufr_d files will add ~ 44 Mb per day
+    - new gsrasr bufr_d files will add ~ 897 Mb per day
+    - new gsrcsr bufr_d files will add ~ 645 Mb per day
+    - new hdob bufr_d files will add ~ 0.63 Mb per day
+    - new ompslp bufr_d files will add ~ 0.3 Mb per day
+    - new sstvcw bufr_d files will add ~ 4950 Mb per day
+    - new sstvpw bufr_d files will add ~ 852 Mb per day
+
+ Shared Software (with 1 or more jobs):
+ --------------------------------------
+    - obsproc_dump.v5.1.0
+    - obsproc_prep.v5.4.0
+    - obsproc_dump_post.v3.4.0
+    - obsproc_prep_post.v3.2.0
+    - obsproc_shared/bufr_avgdata.v2.1.0
+    - obsproc_shared/bufr_remorest.v2.1.1
+    - obsproc_shared/bufr_dumplist.v2.3.0
+
+ Required modules:
+  All jobs require:
+    EnvVars           (tested with 1.0.3, the default at the time)
+    prod_util         (tested with 1.1.4, the default at the time)
+    prod_envir        (tested with 1.1.0, the default at the time)
+    ips               (tested with 18.0.1.163, the default at the time)
+    impi              (tested with 18.0.1, the default at the time)
+    CFP               (tested with 2.0.2, the default at the time)
+    lsf               (tested with 10.1, the default at the time)
+  JGLOBAL_DUMP requires:
+    grib_util/1.1.1
+    bufr_dumplist/2.3.0
+    dumpjb/5.1.0
+  JGLOBAL_DUMP_POST, JGLOBAL_PREP, and JGLOBAL_PREP_POST require:
+    w3emc/2.4.0
+    w3nco/2.0.6
+
+
+ Preimplementation Testing Requirements:
+ ---------------------------------------
+   - Test all 4 JGLOBAL_* jobs for all gdas and gfs cycles.
+
+
+ Downstream users:
+ ----------------
+   - The main users of this output are the GDAS and GFS networks.
+   - Dump count information produced by the dump_post jobs are used by
+     the models_realtime package.
+
+ Dissemination:
+ --------------
+   - No change in dissemination.
+
+
+ Special Instructions:
+ ---------------------
+   This is part of OBSPROC.v15.0.0.
+   This must be implemented on Dell-p3.
+
+   This must be implemented simultaneously with the implementations of:
+     v16.0.0 of GFS,
+      v3.4.1 of obsproc_nam,
+      v3.2.1 of obsproc_rap,
+      v3.3.2 of obsproc_rtma,
+      v3.2.2 of obsproc_urma,
+      v5.4.0 of obsproc_prep,
+      v3.2.0 of obsproc_prep_post.
+
+   Please retrieve the obsproc_global.ver file:
+   git clone ssh://$USER@vlab.ncep.noaa.gov:29418/EMC_obsproc
+   cd EMC_obsproc; git checkout master
+   cp versions/20201009_OBSPROC_v15.0.0/obsproc_global.ver $NWROOT/versions
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+obsproc_global release 3.3.0 --> released Aug 28, 2020,
+                             --> implemented Oct 22, 2020
+
+files:
+ M obsproc_global/jobs/JGLOBAL_DUMP
+ M obsproc_global/scripts/exglobal_dump.sh.ecf
+ M obsproc_global/scripts/exglobal_makeprepbufr.sh.ecf
  M obsproc_global/sorc/load_libs.rc
-   obsproc_global/sorc/clean.sh
-   obsproc_global/sorc/clobber.sh
-   obsproc_global/sorc/install.sh
-   obsproc_global/sorc/setlibs.rc
-   obsproc_global/ush/bufr_latlonqc.sh
 
 ( A - added,  M - modified, D - deleted)
 
@@ -100,7 +413,6 @@ files:
        - gfs dump : ~28s increase per cycle
        - gdas prep: ~ 8s increase per cycle
        - gfs prep : ~16s increase per cycle
-
 
 
  Disk Space Changes:
@@ -197,88 +509,73 @@ files:
 
  Model Script file changes:
    exglobal_dump.sh.ecf:
-    - 1) Removed member of dump group # 1: cris
-    - 2) Renamed member of dump group # 7: escris changed to escrsf
-    - 3) Renamed member of dump group #10: crisdb changed to crsfdb
-      BENEFIT: crisdb is renamed to crsfdb and escris is renamed
-               to escrsf in response to the cessation of NSR
-               CrIS data from NPP on April 22, 2020.  FSR CrIS data
-               from NPP is the replacement. Cessation of NSR data
-               renders the cris dump group obsolete.
-
+    - Disabled DBN alerts for gpsro dump files.  These gpsro
+      dump files potentially contain commercial (restricted)
+      data.  The non-restricted gpsro dump files are alerted
+      instead.
 
  Output changes:
  ---------------
-   All job scripts in gdas and gfs runs:
-    - g*s.tCCz.cris.tm00.bufr_d files will no longer be generated.
-    - g*s.tCCz.crisdb.tm00.bufr_d replaced by
-      g*s.tCCz.crsfdb.tm00.bufr_d
-    - g*s.tCCz.escris.tm00.bufr_d replaced by
-      g*s.tCCz.escrsf.tm00.bufr_d
-
+   Job JGLOBAL_DUMP:
+    - The gpsro dump file will be slightly larger with the
+      addition of commercial GPS-RO data:
+       g*s.tCCz.gpsro.tm00.bufr_d
+    - The gpsro dump file will add ~59 Mb to $COMROOT per day.
+    - The gpsro dump file will no longer be available on NOMADS.
+   Job JGLOBAL_DUMP_POST:
+    - A new non-restricted gpsro dump file will be generated:
+       g*s.tCCz.gpsro.tm00.bufr_d.nr
+    - The non-restricted gpsro dump file will add ~180 Mb to
+      $COMROOT per day.
+    - The non-restricted gpsro dump file will be available on
+      NOMADS.
 
  Compute Resource Information:
  -----------------------------
    All jobs:
     - No change in requested resources in the job cards.
     - Negligible change in memory usage.
-    - Negligible change in wallclock run time.
-    NOTE: At the time of release, sample near real time data
-          was not available to process to confirm compute
-          resource information. 
-
+    - Negligible change in wall clock time/
 
  Disk Space Changes:
  -------------------
     For gdas network:
-    - cris bufr_d files not being generated avails ~2.2 Gb per day
-    For gfs network:
-    - cris bufr_d files not being generated avails ~1.6 Gb per day
-    NOTE: At the time of release, sample near real time data
-          was not available to process to confirm disk space
-          usage.  The following are estimates.
-    For gdas network:
-    - crsfdb bufr_d files will be ~2.5 Gb per day
-    - escrsf bufr_d files will exceed ~700 Mb per day 
+    - gpsro bufr_d files will increase by ~29 Mb per day
+    - new gpsro nr bufr_d files will total ~94 Mb per day 
     For gfs netowrk:
-    - crsfdb bufr_d files will be ~2.0 Gb per day
-    - escrsf bufr_d files will exceed ~650 Mb per day 
- 
+    - gpsro bufr_d files will increase by less then 29 Mb per day
+    - new gpsro nr bufr_d files will total less than 94 Mb per day 
 
  Shared Software (with 1 or more jobs):
  --------------------------------------
-    - obsproc_dump.v5.0.3
-    - obsproc_prep.v5.2.0
-    - obsproc_dump_post.v3.3.1
-    - obsproc_prep_post.v3.1.0
+    - obsproc_dump.v5.1.0
+    - obsproc_prep.v5.3.0
+    - obsproc_dump_post.v3.5.0
+    - obsproc_prep_post.v3.1.1
     - obsproc_shared/bufr_avgdata.v2.1.0
-    - obsproc_shared/bufr_remorest.v2.1.0
-    - obsproc_shared/bufr_dumplist.v2.2.0
-
+    - obsproc_shared/bufr_remorest.v2.1.2
+    - obsproc_shared/bufr_dumplist.v2.3.0
 
  Required modules:
   All jobs require:
-    EnvVars           (tested with 1.0.2, the default at the time)
-    prod_util         (tested with 1.1.3, the default at the time)
+    EnvVars           (tested with 1.0.3, the default at the time)
+    prod_util         (tested with 1.1.4, the default at the time)
     prod_envir        (tested with 1.1.0, the default at the time)
     ips               (tested with 18.0.1.163, the default at the time)
     impi              (tested with 18.0.1, the default at the time)
     CFP               (tested with 2.0.2, the default at the time)
     lsf               (tested with 10.1, the default at the time)
   JGLOBAL_DUMP requires:
-    grib_util/1.0.6
-    bufr_dumplist/2.2.0
-    dumpjb/5.0.3
+    grib_util/1.1.1
+    bufr_dumplist/2.3.0
+    dumpjb/5.1.0
   JGLOBAL_DUMP_POST, JGLOBAL_PREP, and JGLOBAL_PREP_POST require:
     w3emc/2.3.0
     w3nco/2.0.6
 
-
  Preimplementation Testing Requirements:
  ---------------------------------------
-   - Test JGLOBAL DUMP for gdas and gfs runs.
-
-
+   - Test JGLOBAL_DUMP and JGLOBAL_DUMP_POST jobs for gdas and gfs cycles.
 
  Downstream users:
  ----------------
@@ -289,25 +586,25 @@ files:
 
  Dissemination:
  --------------
-   - DBN alerts stop for g*s.tCCz.cris.tm00.bufr_d files
-   - DBN alerts for g*s.tCCz.escris.tm00.bufr_d are replaced by
-     g*s.tCCz.escrsf.tm00.bufr_d 
-   - DBN alerts for g*s.tCCz.crisdb.tm00.bufr_d are replaced by
-     g*s.tCCz.crsfdb.tm00.bufr_d 
-
+   - gpsro dump files will no longer be pushed to NOMADS.
+      g*s.tCCz.gpsro.tm00.bufr_d
+   - gpsro non-restricted dump files will be pushed to NOMADS instead.
+      g*s.tCCz.gpsor.tm00.bufr_d.nr
 
  Special Instructions:
  ---------------------
-   This is part of OBSPROC.v12.0.0.
+   This is part of OBSPROC.v14.2.0.
+   This must be implemented simultaneously with the implementations of: 
+      v4.0.0  of decod_dcrocc
+      v3.4.1  of obsproc_nam
+      v3.5.0  of obsproc_dump_post
+      v2.1.2  of obsproc_shared_bufr_remorest
    This must be implemented on Dell-p3.
-
-   This must be implemented simultaneously with: 
-     v2.2.0 of obsproc_shared_bufr_dumplist.
 
    Please retrieve the obsproc_global.ver file:
    git clone ssh://$USER@vlab.ncep.noaa.gov:29418/EMC_obsproc
    cd EMC_obsproc; git checkout master
-   cp versions/20191024_OBSPROC_v12.0.0/obsproc_global.ver $NWROOT/versions
+   cp versions/20210201_OBSPROC_v14.2.0/obsproc_global.ver $NWROOT/versions
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 obsproc_global release 3.2.5 --> implemented by SPA on Feb 11, 2020
