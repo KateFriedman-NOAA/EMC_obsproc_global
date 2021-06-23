@@ -715,6 +715,7 @@ export DUMP_NUMBER=2
 #--------------------------------------------------------------------------
 # GDAS:
 # Dump # 2 : SFCSHP: 11 subtype(s) (added shipsb & shipub in dumplist)
+#            TIDEG:  1 subtype(s)
 #            ATOVS:  1 subtype(s)
 #            ADPSFC: 7 subtype(s)
 #            ASCATT: 1 subtype(s)
@@ -727,6 +728,7 @@ export DUMP_NUMBER=2
 #--------------------------------------------------------------------------
 # GFS:
 # Dump # 2 : SFCSHP: 11 subtype(s) (added shipsb & shipub in dumplist)
+#            TIDEG:  1 subtype(s)
 #            ADPSFC: 7 subtype(s)
 #            ASCATT: 1 subtype(s)
 #  xxxxxxxxx WNDSAT: 1 subtype(s) (if present in past 10 days of tanks)
