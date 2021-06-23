@@ -34,6 +34,8 @@ files:
       longer included in the sfcshp dump file.
       BENEFIT: Eliminates duplicate reports complications between the
                two separate data streams: tideg and cmanb.
+    - Added logic to copy bufr_dumplist file to $COMOUT.
+      BENEFIT: per NCO SPA request.
 
 
  Output changes:

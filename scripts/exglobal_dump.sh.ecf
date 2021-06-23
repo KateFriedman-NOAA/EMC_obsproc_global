@@ -74,6 +74,7 @@ echo "                       instead.                                       "
 echo "         Sep 21 2020 - Incremented subsets for the sfcshp dump groups "
 echo "                       to match bufr_dumplist. Removed tideg from     "
 echo "                       sfcshp dump group to make individual dump file."
+echo "                     - Copy bufr_dumplist to COMOUT.                  "
 #############################################################################
 
 # NOTE: NET is changed to gdas in the parent Job script for the gdas RUN 
@@ -1826,6 +1827,13 @@ $err5, $err6, $err7, $err8, $err9, $err10, $err11 "
 #  endif loop $PROCESS_DUMP
 fi
 
+#
+# copy bufr_dumplist to $COMOUT per NCO SPA request
+# -------------------------------------------------
+echo "Copy bufr_dumplist to comout"
+LIST_cp=$COMOUT/${RUN}.t${cyc}z.bufr_dumplist.${tmmark}
+cp ${FIXobsproc_shared_bufr_dumplist}/bufr_dumplist $LIST_cp 
+chmod 644 $LIST_cp
 
 # GOOD RUN
 set +x
