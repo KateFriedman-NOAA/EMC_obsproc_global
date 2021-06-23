@@ -1,6 +1,6 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-obsproc_global release 3.4.1 --> released Feb 10, 2021,
-                             --> implemented Apr 14, 2021
+obsproc_global release 3.4.2 --> released ??? ??, 2021,
+                             --> implemented ??? ??, 2021
 
 files:
    obsproc_global/fix/prepobs_oiqc.oberrs
@@ -22,6 +22,129 @@ files:
    obsproc_global/parm/syndat_syndata.gfs.parm
  M obsproc_global/scripts/exglobal_dump.sh.ecf
    obsproc_global/scripts/exglobal_makeprepbufr.sh.ecf
+
+( A - added,  M - modified, D - deleted)
+
+ Model Script file changes:
+   exglobal_dump.sh.ecf:
+    - Modified dump group 2 subtype counts to keep aligned with the
+      updated bufr_dumplist at v2.4.0.
+      BENEFIT: sfcshp dump file includes BUFR format ships and cman data.
+    - Modified dump group 2 to generate a separate tideg dump file, no
+      longer included in the sfcshp dump file.
+      BENEFIT: Eliminates duplicate reports complications between the
+               two separate data streams: tideg and cmanb.
+
+
+ Output changes:
+ ---------------
+   Job JGLOBAL_DUMP:
+    - As a result of updates to exglobal_dump.sh.ecf:
+       - The sfcshp dump file,
+          $COMROOT/gfs/prod/g*s.YYYYMMDD/CC/atmos/g*s.tCCz.sfcshp.tm00.bufr_d,
+         will have the tideg subset (NC001005) removed.
+       - The tideg dump file,
+          $COMROOT/gfs/prod/g*s.YYYYMMDD/CC/atmos/g*s.tCCz.tideg.tm00.bufr_d,
+         will be new.
+    - As a result of updates in obsproc_shared/bufr_dumplist.v2.4.0:
+      - The following subsets are now included in the sfcshp dump file:
+          "SHIPSB" [Ship - manual and automatic, restricted (BUFR)]
+           (001.101)
+          "SHIPUB" [Ship - manual and automatic, unrestricted (BUFR)]
+           (001.113)
+          "CMANB" [Surface Marine CMAN rpts decided from BUFR format]
+           (001.104)
+
+
+ Compute Resource Information:
+ -----------------------------
+   All jobs:
+    - No change in requested resources in the job cards.
+    - Negligible change in memory usage.
+    - Negligible change in wall clock time.
+
+ Disk Space Changes:
+ -------------------
+?? $COMROOT/gfs/prod/g*s  - No change.
+
+
+ Shared Software (with 1 or more jobs):
+ --------------------------------------
+    - obsproc_dump.v5.2.0
+    - obsproc_prep.v5.5.0
+    - obsproc_dump_post.v3.6.0
+    - obsproc_prep_post.v3.2.0
+    - obsproc_shared/bufr_avgdata.v2.1.1
+    - obsproc_shared/bufr_remorest.v2.1.3
+    - obsproc_shared/bufr_dumplist.v2.4.0
+
+
+ Required modules:
+  All jobs require:
+    EnvVars           (tested with 1.0.3, the default at the time)
+    prod_util         (tested with 1.1.6, the default at the time)
+    prod_envir        (tested with 1.1.0, the default at the time)
+    ips               (tested with 18.0.1.163, the default at the time)
+    impi              (tested with 18.0.1, the default at the time)
+    CFP               (tested with 2.0.2, the default at the time)
+    lsf               (tested with 10.1, the default at the time)
+  JGLOBAL_DUMP requires:
+    grib_util/1.1.1
+    bufr_dumplist/2.4.0
+    dumpjb/5.2.0
+  JGLOBAL_DUMP_POST, JGLOBAL_PREP, and JGLOBAL_PREP_POST require:
+    w3emc/2.4.0
+    w3nco/2.0.6
+
+
+ Preimplementation Testing Requirements:
+ ---------------------------------------
+   - Test all 4 production jobs for all gdas and gfs cycles.
+
+ Downstream users:
+ ----------------
+   - The main users of this output are the GDAS and GFS networks.
+   - Dump count information produced by the dump_post jobs are used by
+     the models_realtime package.
+
+ Dissemination:
+ --------------
+   - tideg dump files will be pushed to NOMADS.
+      g*s.tCCz.tideg.tm00.bufr_d
+   - sfcshp dump files will continue to be pushed to NOMADS, but will no
+     longer contain the tideg data (subset NC001005).
+      g*s.tCCz.sfcshp.tm00.bufr_d
+
+
+ Special Instructions:
+ ---------------------
+?? This is part of OBSPROC.v15.?.?.
+   This must be installed on WCOSS Dell phase 3.
+
+   This must be implemented simultaneously with the implementations of:
+      v3.4.2 of obsproc_nam,
+      v3.2.3 of obsproc_rap,
+      v3.3.3 of obsproc_rtma,
+      v3.2.3 of obsproc_urma,
+      v2.5.3 of obsproc_cdas,
+      v2.4.1 of obsproc_dump_monitor,
+      v5.2.0 of obsproc_dump,
+      v3.6.0 of obsproc_dump_post,
+      v5.5.0 of obsproc_prep,
+      v2.1.3 of obsproc_shared_bufr_remorest,
+      v2.4.0 of obsproc_shared_bufr_dumplist.
+
+   Please retrieve the obsproc_global.ver file:
+   git clone ssh://$USER@vlab.ncep.noaa.gov:29418/EMC_obsproc
+   cd EMC_obsproc; git checkout master
+?? cp versions/2021????_OBSPROC_v15.?.?/obsproc_global.ver $NWROOT/versions
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+obsproc_global release 3.4.1 --> released Feb 10, 2021,
+                             --> implemented Apr 14, 2021
+
+files:
+ M obsproc_global/scripts/exglobal_dump.sh.ecf
 
 ( A - added,  M - modified, D - deleted)
 
