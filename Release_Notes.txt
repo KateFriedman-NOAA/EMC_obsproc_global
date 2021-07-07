@@ -67,7 +67,10 @@ files:
 
  Disk Space Changes:
  -------------------
-?? $COMROOT/gfs/prod/g*s  - No change.
+   $COMROOT/gfs/prod/gdas.YYYYMMDD/CC/atmos:
+     gdas.tCCz.sfcshp.tm00.bufr_d* files increase by 32 Mb per day
+     gdas.tCCz.tideg.tm00.bufr_d introduce 5 Mb per day
+     gdas.tCCz.prepbufr files increase by 9 Mb per day
 
 
  Shared Software (with 1 or more jobs):
@@ -120,7 +123,7 @@ files:
 
  Special Instructions:
  ---------------------
-?? This is part of OBSPROC.v15.?.?.
+   This is part of OBSPROC.v16.1.0.
    This must be installed on WCOSS Dell phase 3.
 
    This must be implemented simultaneously with the implementations of:
@@ -139,7 +142,7 @@ files:
    Please retrieve the obsproc_global.ver file:
    git clone ssh://$USER@vlab.ncep.noaa.gov:29418/EMC_obsproc
    cd EMC_obsproc; git checkout master
-?? cp versions/2021????_OBSPROC_v15.?.?/obsproc_global.ver $NWROOT/versions
+?? cp versions/2021????_OBSPROC_v16.1.0/obsproc_global.ver $NWROOT/versions
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 obsproc_global release 3.4.1 --> released Feb 10, 2021,
