@@ -70,7 +70,10 @@ files:
    $COMROOT/gfs/prod/gdas.YYYYMMDD/CC/atmos:
      gdas.tCCz.sfcshp.tm00.bufr_d* files increase by 32 Mb per day
      gdas.tCCz.tideg.tm00.bufr_d introduce 5 Mb per day
-     gdas.tCCz.prepbufr files increase by 9 Mb per day
+     gdas.tCCz.prepbufr* files increase by 17 Mb per day
+     gfs.tCCz.sfcshp.tm00.bufr_d* files increase by 30 Mb per day
+     gfs.tCCz.tideg.tm00.bufr_d introduce 4 Mb per day
+     gfs.tCCz.prepbufr* files increase by 16 Mb per day
 
 
  Shared Software (with 1 or more jobs):
