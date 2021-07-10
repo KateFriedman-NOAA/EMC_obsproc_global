@@ -1,5 +1,5 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-obsproc_global release 3.4.2 --> released ??? ??, 2021,
+obsproc_global release 3.4.2 --> released Jul ??, 2021,
                              --> implemented ??? ??, 2021
 
 files:
