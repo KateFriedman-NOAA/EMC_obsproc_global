@@ -145,7 +145,7 @@ files:
    Please retrieve the obsproc_global.ver file:
    git clone ssh://$USER@vlab.ncep.noaa.gov:29418/EMC_obsproc
    cd EMC_obsproc; git checkout master
-?? cp versions/2021????_OBSPROC_v16.1.0/obsproc_global.ver $NWROOT/versions
+   cp versions/20210712_OBSPROC_v16.1.0/obsproc_global.ver $NWROOT/versions
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 obsproc_global release 3.4.1 --> released Feb 10, 2021,
