@@ -187,11 +187,11 @@ export HOMEgfs=${HOMEgfs:-${NWROOT:?}/gfs.${gfs_ver:?"###FATAL ERROR \"gfs_ver\"
 # Add some prod utilities to working directory
 #########################################################################
 echo "step ############# break ##############################" > ./break
-cp $UTILROOT/ush/err_chk   .; chmod +x err_chk
-cp $UTILROOT/ush/err_exit  .; chmod +x err_exit
-cp $UTILROOT/ush/prep_step .; chmod +x prep_step
-cp $UTILROOT/ush/postmsg   .; chmod +x postmsg
-cp $UTILROOT/ush/setpdy.sh .; chmod +x setpdy.sh
+cp $UTILROOT/bin/err_chk   .; chmod +x err_chk
+cp $UTILROOT/bin/err_exit  .; chmod +x err_exit
+cp $UTILROOT/bin/prep_step .; chmod +x prep_step
+cp $UTILROOT/bin/postmsg   .; chmod +x postmsg
+cp $UTILROOT/bin/setpdy.sh .; chmod +x setpdy.sh
 
 ##########################################
 # Run setpdy and initialize PDY variables
