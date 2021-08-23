@@ -1,6 +1,6 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-obsproc_global release 3.4.1 --> released Feb 10, 2021,
-                             --> implemented Apr 14, 2021
+obsproc_global release 3.4.2 --> released Jul 16, 2021,
+                             --> implemented Aug 18, 2021
 
 files:
    obsproc_global/fix/prepobs_oiqc.oberrs
@@ -22,6 +22,137 @@ files:
    obsproc_global/parm/syndat_syndata.gfs.parm
  M obsproc_global/scripts/exglobal_dump.sh.ecf
    obsproc_global/scripts/exglobal_makeprepbufr.sh.ecf
+
+( A - added,  M - modified, D - deleted)
+
+ Model Script file changes:
+   exglobal_dump.sh.ecf:
+    - Modified dump group 2 subtype counts to keep aligned with the
+      updated bufr_dumplist at v2.4.0.
+      BENEFIT: sfcshp dump file includes BUFR format ships and cman data.
+    - Modified dump group 2 to generate a separate tideg dump file, no
+      longer included in the sfcshp dump file.
+      BENEFIT: Eliminates duplicate reports complications between the
+               two separate data streams: tideg and cmanb.
+    - Added logic to copy bufr_dumplist file to $COMOUT.
+      BENEFIT: per NCO SPA request.
+
+
+ Output changes:
+ ---------------
+   Job JGLOBAL_DUMP:
+    - As a result of updates to exglobal_dump.sh.ecf:
+       - The sfcshp dump file,
+          $COMROOT/gfs/prod/g*s.YYYYMMDD/CC/atmos/g*s.tCCz.sfcshp.tm00.bufr_d,
+         will have the tideg subset (NC001005) removed.
+       - The tideg dump file,
+          $COMROOT/gfs/prod/g*s.YYYYMMDD/CC/atmos/g*s.tCCz.tideg.tm00.bufr_d,
+         will be new.
+    - As a result of updates in obsproc_shared/bufr_dumplist.v2.4.0:
+      - The following subsets are now included in the sfcshp dump file:
+          "SHIPSB" [Ship - manual and automatic, restricted (BUFR)]
+           (001.101)
+          "SHIPUB" [Ship - manual and automatic, unrestricted (BUFR)]
+           (001.113)
+          "CMANB" [Surface Marine CMAN rpts decided from BUFR format]
+           (001.104)
+
+
+ Compute Resource Information:
+ -----------------------------
+   All jobs:
+    - No change in requested resources in the job cards.
+    - Negligible change in memory usage.
+    - Negligible change in wall clock time.
+
+ Disk Space Changes:
+ -------------------
+   $COMROOT/gfs/prod/gdas.YYYYMMDD/CC/atmos:
+     gdas.tCCz.sfcshp.tm00.bufr_d* files increase by 32 Mb per day
+     gdas.tCCz.tideg.tm00.bufr_d introduce 5 Mb per day
+     gdas.tCCz.prepbufr* files increase by 17 Mb per day
+     gfs.tCCz.sfcshp.tm00.bufr_d* files increase by 30 Mb per day
+     gfs.tCCz.tideg.tm00.bufr_d introduce 4 Mb per day
+     gfs.tCCz.prepbufr* files increase by 16 Mb per day
+
+
+ Shared Software (with 1 or more jobs):
+ --------------------------------------
+    - obsproc_dump.v5.2.0
+    - obsproc_prep.v5.5.0
+    - obsproc_dump_post.v3.6.0
+    - obsproc_prep_post.v3.2.0
+    - obsproc_shared/bufr_avgdata.v2.1.1
+    - obsproc_shared/bufr_remorest.v2.1.3
+    - obsproc_shared/bufr_dumplist.v2.4.0
+
+
+ Required modules:
+  All jobs require:
+    EnvVars           (tested with 1.0.3, the default at the time)
+    prod_util         (tested with 1.1.6, the default at the time)
+    prod_envir        (tested with 1.1.0, the default at the time)
+    ips               (tested with 18.0.1.163, the default at the time)
+    impi              (tested with 18.0.1, the default at the time)
+    CFP               (tested with 2.0.2, the default at the time)
+    lsf               (tested with 10.1, the default at the time)
+  JGLOBAL_DUMP requires:
+    grib_util/1.1.1
+    bufr_dumplist/2.4.0
+    dumpjb/5.2.0
+  JGLOBAL_DUMP_POST, JGLOBAL_PREP, and JGLOBAL_PREP_POST require:
+    w3emc/2.4.0
+    w3nco/2.0.6
+
+
+ Preimplementation Testing Requirements:
+ ---------------------------------------
+   - Test all 4 production jobs for all gdas and gfs cycles.
+
+ Downstream users:
+ ----------------
+   - The main users of this output are the GDAS and GFS networks.
+   - Dump count information produced by the dump_post jobs are used by
+     the models_realtime package.
+
+ Dissemination:
+ --------------
+   - tideg dump files will be pushed to NOMADS.
+      g*s.tCCz.tideg.tm00.bufr_d
+   - sfcshp dump files will continue to be pushed to NOMADS, but will no
+     longer contain the tideg data (subset NC001005).
+      g*s.tCCz.sfcshp.tm00.bufr_d
+
+
+ Special Instructions:
+ ---------------------
+   This is part of OBSPROC.v16.1.0.
+   This must be installed on WCOSS Dell phase 3.
+
+   This must be implemented simultaneously with the implementations of:
+      v3.4.2 of obsproc_nam,
+      v3.2.3 of obsproc_rap,
+      v3.3.3 of obsproc_rtma,
+      v3.2.3 of obsproc_urma,
+      v2.5.3 of obsproc_cdas,
+      v2.4.1 of obsproc_dump_monitor,
+      v5.2.0 of obsproc_dump,
+      v3.6.0 of obsproc_dump_post,
+      v5.5.0 of obsproc_prep,
+      v2.1.3 of obsproc_shared_bufr_remorest,
+      v2.4.0 of obsproc_shared_bufr_dumplist.
+
+   Please retrieve the obsproc_global.ver file:
+   git clone ssh://$USER@vlab.ncep.noaa.gov:29418/EMC_obsproc
+   cd EMC_obsproc; git checkout master
+   cp versions/20210712_OBSPROC_v16.1.0/obsproc_global.ver $NWROOT/versions
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+obsproc_global release 3.4.1 --> released Feb 10, 2021,
+                             --> implemented Apr 14, 2021
+
+files:
+ M obsproc_global/scripts/exglobal_dump.sh.ecf
 
 ( A - added,  M - modified, D - deleted)
 
@@ -53,7 +184,7 @@ files:
    All jobs:
     - No change in requested resources in the job cards.
     - Negligible change in memory usage.
-    - Negligible change in wall clock time/
+    - Negligible change in wall clock time.
 
  Disk Space Changes:
  -------------------
@@ -126,9 +257,10 @@ files:
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 obsproc_global release 3.4.0 --> released Oct 09, 2020,
-                             --> implemented Mar 22, 2021
+                             --> implemented ??? ??, 2021
 
 files:
+   obsproc_global/fix/prepobs_oiqc.oberrs
  M obsproc_global/jobs/JGLOBAL_DUMP
  M obsproc_global/jobs/JGLOBAL_DUMP_POST
  M obsproc_global/jobs/JGLOBAL_PREP
@@ -147,7 +279,6 @@ files:
 
 ( A - added,  M - modified, D - deleted)
 
-
  JOB script changes:
    JGLOBAL_DUMP, JGLOBAL_DUMP_POST:
    - Modified to use the new $COMPONENT subdirectory structure.
@@ -164,7 +295,6 @@ files:
    - Modified to source GFS version file, $NWROOT/versions/gfs.ver.
      BENEFIT: Needed to work correctly with the GFS v16 upgrade.
 
-
  Model Script file changes:
    exglobal_dump.sh.ecf:
     - Removed setting for legacy VIIRS AMV data.
@@ -177,11 +307,11 @@ files:
       observations from reconnaissance aircraft (hdob).
     - Updated dump group #8 to:
       - include LEO-GEO, subset 005072, in the satwnd dump processing.
-      - remove GOES-15 subsets: 005010, 005011, 005012, and 005019 
-        from the satwnd dump processing. 
+      - remove GOES-15 subsets: 005010, 005011, 005012, and 005019
+        from the satwnd dump processing.
     - Updated dump group #10 to add:
       - processing for GOES-16/17 All Sky Radiance data (gsrasr).
-      - processing for NPP OMPS Limb Profiler data (ompslp). 
+      - processing for NPP OMPS Limb Profiler data (ompslp).
       - processing for VIIRS SST radiance probably clear and over
         water data (sstvpw).
    exglobal_makeprepbufr.sh:
@@ -192,7 +322,6 @@ files:
       $COMOUT when $NETCDF_IN=.true..
     - Code added to run dbn_alert for NetCDF format global guess
       files when $NETCDF_IN=.true..
-
 
  Source code changes:
    sorc/: bufr_latlonqc.fd, build,sh, load_libs.rc, clean.sh, clobber.sh,
@@ -205,7 +334,6 @@ files:
    ush/: bufr_latlonqc.sh:
    - Removed; functionality rendered obsolete with implementation of
      obsproc_global.v3.3.0.
-
 
  Output changes:
  ---------------
@@ -225,11 +353,10 @@ files:
     subsets (NC005010, NC005011, NC005012, NC005019):
      g*s.t00z.satwnd.tm00.bufr_d
 
-
  Compute Resource Information:
  -----------------------------
    Job cards:
-    JGLOBAL_DUMP, JGLOBAL_DUMP_POST, JGLOBAL_PREP_POST: 
+    JGLOBAL_DUMP, JGLOBAL_DUMP_POST, JGLOBAL_PREP_POST:
      - no change
     JGLOBAL_PREP:
      #BSUB -R "span[ptile=2]"
@@ -238,7 +365,7 @@ files:
      ##BSUB -M 18000
    Memory:
     gfs_dump increases memory usage ~3116 Mb per cycle
-    gdas_dump increases memory usage ~3359 Mb per cycle 
+    gdas_dump increases memory usage ~3359 Mb per cycle
     gfs_dump_post: no change
     gdas_dump_post: no change
     gfs_prep increases memory usage ~12816 Mb per cycle
@@ -247,9 +374,9 @@ files:
     gdas_prep_post: no change
    Wall clock run time:
     gfs_dump increases ~18 s per cycle
-    gdas_dump increases ~18 s per cycle 
+    gdas_dump increases ~18 s per cycle
     gfs_dump_post: no change
-    gdas_dump_post: increases ~8 s per cycle 
+    gdas_dump_post: increases ~8 s per cycle
     gfs_prep increases ~159 s per cycle
     gdas_prep increases ~156 s per cycle
     gfs_prep_post: no change
@@ -276,7 +403,6 @@ files:
     - new sstvcw bufr_d files will add ~ 4950 Mb per day
     - new sstvpw bufr_d files will add ~ 852 Mb per day
 
-
  Shared Software (with 1 or more jobs):
  --------------------------------------
     - obsproc_dump.v5.1.0
@@ -286,7 +412,6 @@ files:
     - obsproc_shared/bufr_avgdata.v2.1.0
     - obsproc_shared/bufr_remorest.v2.1.1
     - obsproc_shared/bufr_dumplist.v2.3.0
-
 
  Required modules:
   All jobs require:
@@ -317,7 +442,6 @@ files:
    - Dump count information produced by the dump_post jobs are used by
      the models_realtime package.
 
-
  Dissemination:
  --------------
    - No change in dissemination.
@@ -328,7 +452,7 @@ files:
    This is part of OBSPROC.v15.0.0.
    This must be implemented on Dell-p3.
 
-   This must be implemented simultaneously with the implementations of: 
+   This must be implemented simultaneously with the implementations of:
      v16.0.0 of GFS,
       v3.4.1 of obsproc_nam,
       v3.2.1 of obsproc_rap,
